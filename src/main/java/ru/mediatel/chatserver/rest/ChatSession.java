@@ -32,7 +32,7 @@ class ChatSession {
     private final RestTemplate restTemplate = new RestTemplateBuilder()
             .defaultHeader(HttpHeaders.ACCEPT_CHARSET, "UTF-8")
             .build();
-    private static final String BASE_URL = "http://localhost:8070";
+    private static final String BASE_URL = "http://localhost:8090";
     private final ObjectMapper mapper = new ObjectMapper();
 
 
