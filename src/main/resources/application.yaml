@@ -1,3 +1,13 @@
 spring:
   application:
     name: chatserver
+
+server:
+  port: 8080
+
+nats:
+  spring:
+    server: nats://localhost:4222
+
+system:
+  dbservice-url: http://localhost:8090

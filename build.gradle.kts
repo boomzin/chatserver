@@ -32,6 +32,8 @@ dependencies {
     implementation ("dev.langchain4j:langchain4j-open-ai:1.4.0")
     implementation ("dev.langchain4j:langchain4j:1.1.0")
 
+	implementation ("io.nats:nats-spring-boot-starter:0.6.2+3.5")
+
     implementation("org.slf4j:slf4j-api:2.0.13")
 //    implementation("ch.qos.logback:logback-classic:1.5.6")
 

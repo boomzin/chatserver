@@ -27,20 +27,21 @@ import java.util.Map;
 class ChatSession {
 
     private final String chatId;
+    private final String dbServiceUrl;
     private WineAssistant assistant;
 
     private final RestTemplate restTemplate = new RestTemplateBuilder()
             .defaultHeader(HttpHeaders.ACCEPT_CHARSET, "UTF-8")
             .build();
-    private static final String BASE_URL = "http://localhost:8090";
     private final ObjectMapper mapper = new ObjectMapper();
 
 
-    ChatSession(String chatId) throws JsonProcessingException {
+    ChatSession(String chatId, String dbServiceUrl) throws JsonProcessingException {
         this.chatId = chatId;
+        this.dbServiceUrl = dbServiceUrl;
 
         List<Tool> toolList = mapper.readValue(restTemplate
-                        .getForObject(BASE_URL + "/api/rest/db_service/v1/tools", String.class),
+                        .getForObject(this.dbServiceUrl + "/api/rest/db_service/v1/tools", String.class),
                 new TypeReference<List<Tool>>() {}
         );
 
@@ -70,7 +71,7 @@ class ChatSession {
             if (tool.getDefinition().httpMethod().equalsIgnoreCase("GET")) {
                 toolExecutor = (toolExecutionRequest, memoryId) -> {
                     UriComponentsBuilder builder = UriComponentsBuilder
-                            .fromUriString(BASE_URL + tool.getDefinition().endpoint());
+                            .fromUriString(this.dbServiceUrl + tool.getDefinition().endpoint());
 
                     Map<String, Object> arguments = null;
                     try {
@@ -97,7 +98,7 @@ class ChatSession {
                     }
 
                     return restTemplate.postForEntity(
-                            BASE_URL + tool.getDefinition().endpoint(),
+                            this.dbServiceUrl + tool.getDefinition().endpoint(),
                             arguments,
                             String.class
                     ).getBody();
